@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="covidUpdates">
+            <h2><span>Covid Updates</span> {{ covidUpdates.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Title</span></dt>
+                <dd>
+                    <span>{{ covidUpdates.title }}</span>
+                </dd>
+                <dt><span>Content</span></dt>
+                <dd>
+                    <span>{{ covidUpdates.content }}</span>
+                </dd>
+                <dt><span>Source</span></dt>
+                <dd>
+                    <span>{{ covidUpdates.source }}</span>
+                </dd>
+                <dt><span>Domain</span></dt>
+                <dd>
+                    <span>{{ covidUpdates.domain }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/covid-updates', covidUpdates.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
