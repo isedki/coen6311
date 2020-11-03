@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(CovidUpdatesService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new CovidUpdates(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new CovidUpdates(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,8 @@ describe('Service Tests', () => {
             content: 'BBBBBB',
             source: 'BBBBBB',
             domain: 'BBBBBB',
+            image: 'BBBBBB',
+            publishedAt: 'BBBBBB',
           },
           elemDefault
         );
@@ -78,6 +80,8 @@ describe('Service Tests', () => {
             content: 'BBBBBB',
             source: 'BBBBBB',
             domain: 'BBBBBB',
+            image: 'BBBBBB',
+            publishedAt: 'BBBBBB',
           },
           elemDefault
         );

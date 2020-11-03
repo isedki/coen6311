@@ -44,6 +44,12 @@ public class CovidUpdatesResourceIT {
     private static final String DEFAULT_DOMAIN = "AAAAAAAAAA";
     private static final String UPDATED_DOMAIN = "BBBBBBBBBB";
 
+    private static final String DEFAULT_IMAGE = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PUBLISHED_AT = "AAAAAAAAAA";
+    private static final String UPDATED_PUBLISHED_AT = "BBBBBBBBBB";
+
     @Autowired
     private CovidUpdatesRepository covidUpdatesRepository;
 
@@ -72,7 +78,9 @@ public class CovidUpdatesResourceIT {
             .title(DEFAULT_TITLE)
             .content(DEFAULT_CONTENT)
             .source(DEFAULT_SOURCE)
-            .domain(DEFAULT_DOMAIN);
+            .domain(DEFAULT_DOMAIN)
+            .image(DEFAULT_IMAGE)
+            .publishedAt(DEFAULT_PUBLISHED_AT);
         return covidUpdates;
     }
     /**
@@ -86,7 +94,9 @@ public class CovidUpdatesResourceIT {
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)
             .source(UPDATED_SOURCE)
-            .domain(UPDATED_DOMAIN);
+            .domain(UPDATED_DOMAIN)
+            .image(UPDATED_IMAGE)
+            .publishedAt(UPDATED_PUBLISHED_AT);
         return covidUpdates;
     }
 
@@ -113,6 +123,8 @@ public class CovidUpdatesResourceIT {
         assertThat(testCovidUpdates.getContent()).isEqualTo(DEFAULT_CONTENT);
         assertThat(testCovidUpdates.getSource()).isEqualTo(DEFAULT_SOURCE);
         assertThat(testCovidUpdates.getDomain()).isEqualTo(DEFAULT_DOMAIN);
+        assertThat(testCovidUpdates.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testCovidUpdates.getPublishedAt()).isEqualTo(DEFAULT_PUBLISHED_AT);
     }
 
     @Test
@@ -149,7 +161,9 @@ public class CovidUpdatesResourceIT {
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
             .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE)))
-            .andExpect(jsonPath("$.[*].domain").value(hasItem(DEFAULT_DOMAIN)));
+            .andExpect(jsonPath("$.[*].domain").value(hasItem(DEFAULT_DOMAIN)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(DEFAULT_IMAGE)))
+            .andExpect(jsonPath("$.[*].publishedAt").value(hasItem(DEFAULT_PUBLISHED_AT)));
     }
     
     @Test
@@ -166,7 +180,9 @@ public class CovidUpdatesResourceIT {
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT))
             .andExpect(jsonPath("$.source").value(DEFAULT_SOURCE))
-            .andExpect(jsonPath("$.domain").value(DEFAULT_DOMAIN));
+            .andExpect(jsonPath("$.domain").value(DEFAULT_DOMAIN))
+            .andExpect(jsonPath("$.image").value(DEFAULT_IMAGE))
+            .andExpect(jsonPath("$.publishedAt").value(DEFAULT_PUBLISHED_AT));
     }
 
 
@@ -500,6 +516,162 @@ public class CovidUpdatesResourceIT {
         defaultCovidUpdatesShouldBeFound("domain.doesNotContain=" + UPDATED_DOMAIN);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByImageIsEqualToSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where image equals to DEFAULT_IMAGE
+        defaultCovidUpdatesShouldBeFound("image.equals=" + DEFAULT_IMAGE);
+
+        // Get all the covidUpdatesList where image equals to UPDATED_IMAGE
+        defaultCovidUpdatesShouldNotBeFound("image.equals=" + UPDATED_IMAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByImageIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where image not equals to DEFAULT_IMAGE
+        defaultCovidUpdatesShouldNotBeFound("image.notEquals=" + DEFAULT_IMAGE);
+
+        // Get all the covidUpdatesList where image not equals to UPDATED_IMAGE
+        defaultCovidUpdatesShouldBeFound("image.notEquals=" + UPDATED_IMAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByImageIsInShouldWork() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where image in DEFAULT_IMAGE or UPDATED_IMAGE
+        defaultCovidUpdatesShouldBeFound("image.in=" + DEFAULT_IMAGE + "," + UPDATED_IMAGE);
+
+        // Get all the covidUpdatesList where image equals to UPDATED_IMAGE
+        defaultCovidUpdatesShouldNotBeFound("image.in=" + UPDATED_IMAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByImageIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where image is not null
+        defaultCovidUpdatesShouldBeFound("image.specified=true");
+
+        // Get all the covidUpdatesList where image is null
+        defaultCovidUpdatesShouldNotBeFound("image.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCovidUpdatesByImageContainsSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where image contains DEFAULT_IMAGE
+        defaultCovidUpdatesShouldBeFound("image.contains=" + DEFAULT_IMAGE);
+
+        // Get all the covidUpdatesList where image contains UPDATED_IMAGE
+        defaultCovidUpdatesShouldNotBeFound("image.contains=" + UPDATED_IMAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByImageNotContainsSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where image does not contain DEFAULT_IMAGE
+        defaultCovidUpdatesShouldNotBeFound("image.doesNotContain=" + DEFAULT_IMAGE);
+
+        // Get all the covidUpdatesList where image does not contain UPDATED_IMAGE
+        defaultCovidUpdatesShouldBeFound("image.doesNotContain=" + UPDATED_IMAGE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByPublishedAtIsEqualToSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where publishedAt equals to DEFAULT_PUBLISHED_AT
+        defaultCovidUpdatesShouldBeFound("publishedAt.equals=" + DEFAULT_PUBLISHED_AT);
+
+        // Get all the covidUpdatesList where publishedAt equals to UPDATED_PUBLISHED_AT
+        defaultCovidUpdatesShouldNotBeFound("publishedAt.equals=" + UPDATED_PUBLISHED_AT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByPublishedAtIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where publishedAt not equals to DEFAULT_PUBLISHED_AT
+        defaultCovidUpdatesShouldNotBeFound("publishedAt.notEquals=" + DEFAULT_PUBLISHED_AT);
+
+        // Get all the covidUpdatesList where publishedAt not equals to UPDATED_PUBLISHED_AT
+        defaultCovidUpdatesShouldBeFound("publishedAt.notEquals=" + UPDATED_PUBLISHED_AT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByPublishedAtIsInShouldWork() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where publishedAt in DEFAULT_PUBLISHED_AT or UPDATED_PUBLISHED_AT
+        defaultCovidUpdatesShouldBeFound("publishedAt.in=" + DEFAULT_PUBLISHED_AT + "," + UPDATED_PUBLISHED_AT);
+
+        // Get all the covidUpdatesList where publishedAt equals to UPDATED_PUBLISHED_AT
+        defaultCovidUpdatesShouldNotBeFound("publishedAt.in=" + UPDATED_PUBLISHED_AT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByPublishedAtIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where publishedAt is not null
+        defaultCovidUpdatesShouldBeFound("publishedAt.specified=true");
+
+        // Get all the covidUpdatesList where publishedAt is null
+        defaultCovidUpdatesShouldNotBeFound("publishedAt.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCovidUpdatesByPublishedAtContainsSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where publishedAt contains DEFAULT_PUBLISHED_AT
+        defaultCovidUpdatesShouldBeFound("publishedAt.contains=" + DEFAULT_PUBLISHED_AT);
+
+        // Get all the covidUpdatesList where publishedAt contains UPDATED_PUBLISHED_AT
+        defaultCovidUpdatesShouldNotBeFound("publishedAt.contains=" + UPDATED_PUBLISHED_AT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCovidUpdatesByPublishedAtNotContainsSomething() throws Exception {
+        // Initialize the database
+        covidUpdatesRepository.saveAndFlush(covidUpdates);
+
+        // Get all the covidUpdatesList where publishedAt does not contain DEFAULT_PUBLISHED_AT
+        defaultCovidUpdatesShouldNotBeFound("publishedAt.doesNotContain=" + DEFAULT_PUBLISHED_AT);
+
+        // Get all the covidUpdatesList where publishedAt does not contain UPDATED_PUBLISHED_AT
+        defaultCovidUpdatesShouldBeFound("publishedAt.doesNotContain=" + UPDATED_PUBLISHED_AT);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -511,7 +683,9 @@ public class CovidUpdatesResourceIT {
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
             .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE)))
-            .andExpect(jsonPath("$.[*].domain").value(hasItem(DEFAULT_DOMAIN)));
+            .andExpect(jsonPath("$.[*].domain").value(hasItem(DEFAULT_DOMAIN)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(DEFAULT_IMAGE)))
+            .andExpect(jsonPath("$.[*].publishedAt").value(hasItem(DEFAULT_PUBLISHED_AT)));
 
         // Check, that the count call also returns 1
         restCovidUpdatesMockMvc.perform(get("/api/covid-updates/count?sort=id,desc&" + filter))
@@ -561,7 +735,9 @@ public class CovidUpdatesResourceIT {
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)
             .source(UPDATED_SOURCE)
-            .domain(UPDATED_DOMAIN);
+            .domain(UPDATED_DOMAIN)
+            .image(UPDATED_IMAGE)
+            .publishedAt(UPDATED_PUBLISHED_AT);
 
         restCovidUpdatesMockMvc.perform(put("/api/covid-updates")
             .contentType(MediaType.APPLICATION_JSON)
@@ -576,6 +752,8 @@ public class CovidUpdatesResourceIT {
         assertThat(testCovidUpdates.getContent()).isEqualTo(UPDATED_CONTENT);
         assertThat(testCovidUpdates.getSource()).isEqualTo(UPDATED_SOURCE);
         assertThat(testCovidUpdates.getDomain()).isEqualTo(UPDATED_DOMAIN);
+        assertThat(testCovidUpdates.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testCovidUpdates.getPublishedAt()).isEqualTo(UPDATED_PUBLISHED_AT);
     }
 
     @Test

@@ -30,6 +30,12 @@ public class CovidUpdates implements Serializable {
     @Column(name = "domain")
     private String domain;
 
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "published_at")
+    private String publishedAt;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -90,6 +96,32 @@ public class CovidUpdates implements Serializable {
     public void setDomain(String domain) {
         this.domain = domain;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public CovidUpdates image(String image) {
+        this.image = image;
+        return this;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public CovidUpdates publishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+        return this;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -117,6 +149,8 @@ public class CovidUpdates implements Serializable {
             ", content='" + getContent() + "'" +
             ", source='" + getSource() + "'" +
             ", domain='" + getDomain() + "'" +
+            ", image='" + getImage() + "'" +
+            ", publishedAt='" + getPublishedAt() + "'" +
             "}";
     }
 }
