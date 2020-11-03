@@ -81,23 +81,24 @@ public class CovidUpdatesQueryService extends QueryService<CovidUpdates> {
      */
     protected Specification<CovidUpdates> createSpecification(CovidUpdatesCriteria criteria) {
         Specification<CovidUpdates> specification = Specification.where(null);
-        if (criteria != null) {
-            if (criteria.getId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getId(), CovidUpdates_.id));
-            }
-            if (criteria.getTitle() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTitle(), CovidUpdates_.title));
-            }
-            if (criteria.getContent() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getContent(), CovidUpdates_.content));
-            }
-            if (criteria.getSource() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSource(), CovidUpdates_.source));
-            }
-            if (criteria.getDomain() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDomain(), CovidUpdates_.domain));
-            }
-        }
+		/*
+		 * if (criteria != null) { if (criteria.getId() != null) { specification =
+		 * specification.and(buildRangeSpecification(criteria.getId(),
+		 * CovidUpdates_.id)); } if (criteria.getTitle() != null) { specification =
+		 * specification.and(buildStringSpecification(criteria.getTitle(),
+		 * CovidUpdates_.title)); } if (criteria.getContent() != null) { specification =
+		 * specification.and(buildStringSpecification(criteria.getContent(),
+		 * CovidUpdates_.content)); } if (criteria.getSource() != null) { specification
+		 * = specification.and(buildStringSpecification(criteria.getSource(),
+		 * CovidUpdates_.source)); } if (criteria.getDomain() != null) { specification =
+		 * specification.and(buildStringSpecification(criteria.getDomain(),
+		 * CovidUpdates_.domain)); } if (criteria.getImage() != null) { specification =
+		 * specification.and(buildStringSpecification(criteria.getImage(),
+		 * CovidUpdates_.image)); } if (criteria.getPublishedAt() != null) {
+		 * specification =
+		 * specification.and(buildStringSpecification(criteria.getPublishedAt(),
+		 * CovidUpdates_.publishedAt)); } }
+		 */
         return specification;
     }
 }

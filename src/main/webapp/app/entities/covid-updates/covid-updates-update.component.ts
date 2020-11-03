@@ -21,6 +21,8 @@ export class CovidUpdatesUpdateComponent implements OnInit {
     content: [],
     source: [],
     domain: [],
+    image: [],
+    publishedAt: [],
   });
 
   constructor(protected covidUpdatesService: CovidUpdatesService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -38,6 +40,8 @@ export class CovidUpdatesUpdateComponent implements OnInit {
       content: covidUpdates.content,
       source: covidUpdates.source,
       domain: covidUpdates.domain,
+      image: covidUpdates.image,
+      publishedAt: covidUpdates.publishedAt,
     });
   }
 
@@ -63,6 +67,8 @@ export class CovidUpdatesUpdateComponent implements OnInit {
       content: this.editForm.get(['content'])!.value,
       source: this.editForm.get(['source'])!.value,
       domain: this.editForm.get(['domain'])!.value,
+      image: this.editForm.get(['image'])!.value,
+      publishedAt: this.editForm.get(['publishedAt'])!.value,
     };
   }
 

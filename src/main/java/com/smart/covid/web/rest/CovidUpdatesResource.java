@@ -1,6 +1,8 @@
 package com.smart.covid.web.rest;
 
 import com.smart.covid.domain.CovidUpdates;
+import com.smart.covid.domain.NewsApiItem;
+import com.smart.covid.domain.NewsG;
 import com.smart.covid.service.CovidUpdatesService;
 import com.smart.covid.web.rest.errors.BadRequestAlertException;
 import com.smart.covid.service.dto.CovidUpdatesCriteria;
@@ -19,9 +21,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,6 +102,29 @@ public class CovidUpdatesResource {
     @GetMapping("/covid-updates")
     public ResponseEntity<List<CovidUpdates>> getAllCovidUpdates(CovidUpdatesCriteria criteria, Pageable pageable) {
         log.debug("REST request to get CovidUpdates by criteria: {}", criteria);
+        RestTemplate restTemplate = new RestTemplate();
+        String fooResourceUrl
+          = "http://newsapi.org/v2/top-headlines?q=covid&country=ca&language=en&sortBy=publishedAt&apiKey=360d2f7f354f412f915d7b606e9f1b63";
+        
+        NewsG response
+          = restTemplate.getForObject(fooResourceUrl  , NewsG.class);
+        
+        System.out.println(response);
+        
+        
+        List<NewsApiItem> items= (List<NewsApiItem>)response.getArticles();
+        Iterator iter = items.iterator();
+        while(iter.hasNext()) {
+        CovidUpdates c1= new CovidUpdates();
+        NewsApiItem it =(NewsApiItem) iter.next();
+        c1.setTitle(it.getTitle());
+        c1.setContent(it.getDescription());
+        c1.setSource(it.getSource().getName());
+        c1.setDomain(it.getAuthor());
+        c1.setPublishedAt(it.getPublishedAt());
+        c1.setImage(it.getUrlToImage());
+        covidUpdatesService.save(c1);
+        }
         Page<CovidUpdates> page = covidUpdatesQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

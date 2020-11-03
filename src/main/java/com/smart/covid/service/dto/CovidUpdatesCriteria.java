@@ -34,6 +34,10 @@ public class CovidUpdatesCriteria implements Serializable, Criteria {
 
     private StringFilter domain;
 
+    private StringFilter image;
+
+    private StringFilter publishedAt;
+
     public CovidUpdatesCriteria() {
     }
 
@@ -43,6 +47,8 @@ public class CovidUpdatesCriteria implements Serializable, Criteria {
         this.content = other.content == null ? null : other.content.copy();
         this.source = other.source == null ? null : other.source.copy();
         this.domain = other.domain == null ? null : other.domain.copy();
+        this.image = other.image == null ? null : other.image.copy();
+        this.publishedAt = other.publishedAt == null ? null : other.publishedAt.copy();
     }
 
     @Override
@@ -90,6 +96,22 @@ public class CovidUpdatesCriteria implements Serializable, Criteria {
         this.domain = domain;
     }
 
+    public StringFilter getImage() {
+        return image;
+    }
+
+    public void setImage(StringFilter image) {
+        this.image = image;
+    }
+
+    public StringFilter getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(StringFilter publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -105,7 +127,9 @@ public class CovidUpdatesCriteria implements Serializable, Criteria {
             Objects.equals(title, that.title) &&
             Objects.equals(content, that.content) &&
             Objects.equals(source, that.source) &&
-            Objects.equals(domain, that.domain);
+            Objects.equals(domain, that.domain) &&
+            Objects.equals(image, that.image) &&
+            Objects.equals(publishedAt, that.publishedAt);
     }
 
     @Override
@@ -115,7 +139,9 @@ public class CovidUpdatesCriteria implements Serializable, Criteria {
         title,
         content,
         source,
-        domain
+        domain,
+        image,
+        publishedAt
         );
     }
 
@@ -128,6 +154,8 @@ public class CovidUpdatesCriteria implements Serializable, Criteria {
                 (content != null ? "content=" + content + ", " : "") +
                 (source != null ? "source=" + source + ", " : "") +
                 (domain != null ? "domain=" + domain + ", " : "") +
+                (image != null ? "image=" + image + ", " : "") +
+                (publishedAt != null ? "publishedAt=" + publishedAt + ", " : "") +
             "}";
     }
 
